@@ -144,6 +144,8 @@ fi
 #start processing command line arguments
 while [ "$1" != "" ]; do
   case $1 in
+  --vo )                         OUTPUT_FORMAT="VALUE_ONLY"
+                                 ;;
   -a | --ami-id )                print_normal_metric ami-id meta-data/ami-id
                                  ;;
   -l | --ami-launch-index )      print_normal_metric ami-launch-index meta-data/ami-launch-index
@@ -188,9 +190,6 @@ while [ "$1" != "" ]; do
                  exit
                                  ;;
   --all )                        print_all
-                 exit
-                                 ;;
-  --vo )                         OUTPUT_FORMAT="VALUE_ONLY"
                  exit
                                  ;;
   * )                            print_help
