@@ -2,9 +2,13 @@
 
 Based on the [EC2 Instance Metadata Query Tool][querytool-url]
 
-## Additional Options
+## Additional Script Options
 
-* *-f* *--instance-profile*
+* **--vo** output values only (no labels)
+
+## Additional Metadata Options
+
+* **-f** **--instance-role**
 
 ## Sungard Availability Services | Labs
 [![Sungard Availability Services | Labs][labs-image]][labs-github-url]

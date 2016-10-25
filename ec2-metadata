@@ -11,6 +11,8 @@
 #affiliates.                                                            #
 #########################################################################
 
+OUTPUT_FORMAT="STANDARD"
+
 function print_help()
 {
 echo "ec2-metadata v0.1.1
@@ -31,6 +33,7 @@ Options:
 -b/--block-device-mapping Defines native device names to use when exposing virtual devices.
 -i/--instance-id          The ID of this instance
 -t/--instance-type        The type of instance to launch. For more information, see Instance Types.
+-f/--instance-role        The IAM Role associated with the Instance
 -h/--local-hostname       The local hostname of the instance.
 -o/--local-ipv4           Public IP address if launched with direct addressing; private IP address if launched with public addressing.
 -k/--kernel-id            The ID of the kernel launched with this instance, if applicable.
@@ -59,7 +62,9 @@ function chk_config()
 #print standard metric
 function print_normal_metric() {
   metric_path=$2
-  echo -n $1": "
+  if [ $OUTPUT_FORMAT == "STANDARD" ]; then
+    echo -n $1": "
+  fi
   RESPONSE=$(curl -fs http://169.254.169.254/latest/${metric_path}/)
   if [ $? == 0 ]; then
     echo $RESPONSE
@@ -113,7 +118,7 @@ function print_all()
   print_block-device-mapping
   print_normal_metric instance-id meta-data/instance-id
   print_normal_metric instance-type meta-data/instance-type
-  print_normal_metric instance-profile meta-data/iam/security-credentials/
+  print_normal_metric instance-role meta-data/iam/security-credentials
   print_normal_metric local-hostname meta-data/local-hostname
   print_normal_metric local-ipv4 meta-data/local-ipv4
   print_normal_metric kernel-id meta-data/kernel-id
@@ -152,8 +157,8 @@ while [ "$1" != "" ]; do
   -i | --instance-id )           print_normal_metric instance-id meta-data/instance-id
                                  ;;
   -t | --instance-type )         print_normal_metric instance-type meta-data/instance-type
-                                                                                                                                 ;;
-  -f | --instance-profile )      print_normal_metric instance-profile meta-data/iam/security-credentials/
+                                 ;;
+  -f | --instance-role )         print_normal_metric instance-role meta-data/iam/security-credentials
                                  ;;
   -h | --local-hostname )        print_normal_metric local-hostname meta-data/local-hostname
                                  ;;
@@ -183,7 +188,10 @@ while [ "$1" != "" ]; do
                  exit
                                  ;;
   --all )                        print_all
-                 exit 
+                 exit
+                                 ;;
+  --vo )                         OUTPUT_FORMAT="VALUE_ONLY"
+                 exit
                                  ;;
   * )                            print_help
                  exit 1
