@@ -15,7 +15,7 @@ OUTPUT_FORMAT="STANDARD"
 
 function print_help()
 {
-echo "ec2-metadata v0.1.1
+echo "ec2-metadata v2.1.2
 Use to retrieve EC2 instance metadata from within a running EC2 instance. 
 e.g. to retrieve instance id: ec2-metadata -i
      to retrieve ami id: ec2-metadata -a
@@ -23,7 +23,11 @@ e.g. to retrieve instance id: ec2-metadata -i
 For more information on Amazon EC2 instance meta-data, refer to the documentation at
 http://docs.amazonwebservices.com/AWSEC2/2008-05-05/DeveloperGuide/AESDG-chapter-instancedata.html
 
-Usage: ec2-metadata <option>
+Usage: ec2-metadata <global-option> <option>
+
+Script Options:
+--vo                      Value Only outputs (no labels)
+
 Options:
 --all                     Show all metadata information for this host (also default).
 -a/--ami-id               The AMI ID used to launch this instance
